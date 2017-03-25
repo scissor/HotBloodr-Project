@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 
-namespace Akatsuki
+namespace HotBloodr
 {
     public static class RandomHelper
     {
@@ -95,7 +95,7 @@ namespace Akatsuki
 
         public static string String(int size, bool lowerCase)
         {
-            StringBuilder randString = new StringBuilder(size);
+            var randString = new StringBuilder(size);
 
             int start = lowerCase ? 97 : 65;
 
@@ -150,6 +150,14 @@ namespace Akatsuki
 
             float value = Math.Abs(Float());
             return (value % range) + minimal;
+        }
+
+        public static Vector3 ScreenPosition()
+        {
+            var x = Float(0, Screen.width);
+            var y = Float(0, Screen.height);
+            var position = Camera.main.ScreenToWorldPoint(new Vector3(x, y, Camera.main.farClipPlane / 2));
+            return position;
         }
 
         public static Vector3 OutScreenPosition(float offsetW, float offsetH)

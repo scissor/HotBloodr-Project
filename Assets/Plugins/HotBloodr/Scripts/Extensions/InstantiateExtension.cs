@@ -5,7 +5,7 @@ public static partial class ExtensionMethods
 {
     public static GameObject AddChild(this GameObject parent, GameObject prefab)
     {
-        var obj = GameObject.Instantiate(prefab) as GameObject;
+        var obj = Object.Instantiate(prefab) as GameObject;
         var t = obj.transform;
 
         if (parent != null)
@@ -23,11 +23,6 @@ public static partial class ExtensionMethods
     public static GameObject AddChild(this GameObject prefab)
     {
         return AddChild(null, prefab);
-    }
-
-    public static void Destroy(this GameObject obj)
-    {
-        Object.Destroy(obj);
     }
 
     public static T AddChild<T>(this GameObject prefab)
@@ -48,5 +43,10 @@ public static partial class ExtensionMethods
         Debug.Assert(returnClass != null, "AddChild Error: " + typeof(T) + " is null!");
 
         return returnClass;
+    }
+
+    public static void Destroy(this GameObject obj)
+    {
+        Object.Destroy(obj);
     }
 }
