@@ -22,6 +22,7 @@
 
 #if UNITY_EDITOR
 
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using UnityEditor;
@@ -31,9 +32,11 @@ namespace HotBloodr.Editor
 {
     public class SingletonAssetCreator : EditorWindow
     {
+        private string m_templateName = "SingletonAsset.txt";
         private string m_scriptPath = "Scripts/Settings/";
         private string m_assetPath = "Resources/Settings/";
         private string m_name = "GameSettings";
+        private Dictionary<string, string> m_replacements = null;
 
         private Object m_selection = null;
         private bool m_isNeedCreate = false;
@@ -142,10 +145,13 @@ namespace HotBloodr.Editor
                 Directory.CreateDirectory(directory);
             }
 
-            var loadPath = m_assetPath.Replace("Resources/", string.Empty);
-            loadPath = Path.Combine(loadPath, m_name);
-
-            var fileString = ScriptableObjectTemplate(loadPath);
+            var assetPath = m_assetPath.Replace("Resources/", string.Empty) + m_name;
+            m_replacements = new Dictionary<string, string>()
+            {
+                { "$ClassName", m_name },
+                { "$AssetPath", assetPath },
+            };
+            var fileString = ScriptWizard.Create(m_templateName, m_replacements);
             File.WriteAllText(file, fileString, Encoding.UTF8);
 
             AssetDatabase.Refresh();
@@ -153,29 +159,6 @@ namespace HotBloodr.Editor
 
             Debug.Log("Create ScriptObject: " + m_name);
             Debug.Log("Wait for compiling...");
-        }
-
-        private string ScriptableObjectTemplate(string path)
-        {
-            return string.Format(@"using UnityEngine;
-
-public class {0} : ScriptableObject
-{{
-    public static {0} Instance
-    {{
-        get
-        {{
-            if (instance == null)
-            {{
-                instance = ({0})Resources.Load<{0}>(""{1}"");
-            }}
-
-            return instance;
-        }}
-    }}
-
-    protected static {0} instance;
-}}", m_name, path);
         }
     }
 }
