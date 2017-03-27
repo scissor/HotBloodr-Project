@@ -36,7 +36,6 @@ namespace HotBloodr.Editor
         private string m_scriptPath = "Scripts/Settings/";
         private string m_assetPath = "Resources/Settings/";
         private string m_name = "GameSettings";
-        private Dictionary<string, string> m_replacements = null;
 
         private Object m_selection = null;
         private bool m_isNeedCreate = false;
@@ -146,12 +145,12 @@ namespace HotBloodr.Editor
             }
 
             var assetPath = m_assetPath.Replace("Resources/", string.Empty) + m_name;
-            m_replacements = new Dictionary<string, string>()
+            var replacements = new Dictionary<string, string>()
             {
                 { "$ClassName", m_name },
                 { "$AssetPath", assetPath },
             };
-            var fileString = ScriptWizard.Create(m_templateName, m_replacements);
+            var fileString = ScriptWizard.Create(m_templateName, replacements);
             File.WriteAllText(file, fileString, Encoding.UTF8);
 
             AssetDatabase.Refresh();
