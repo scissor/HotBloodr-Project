@@ -24,21 +24,12 @@
 
 using UnityEngine;
 using UnityEditor;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
 
 namespace HotBloodr.Editor
 {
     [CustomEditor(typeof(Transform)), CanEditMultipleObjects]
-    public class TransformInspector : DecoratorEditor
+    public class TransformInspector : TransformResetter
     {
-        private bool m_unFold = false;
-
-        private static Vector3 m_resetPosition = Vector3.zero;
-        private static Vector3 m_resetRotation = Vector3.zero;
-        private static Vector3 m_resetScale = Vector3.one;
-
         private SerializedProperty m_position;
         private SerializedProperty m_rotation;
         private SerializedProperty m_scale;
@@ -53,12 +44,7 @@ namespace HotBloodr.Editor
             m_rotation = serializedObject.FindProperty("m_LocalRotation");
             m_scale = serializedObject.FindProperty("m_LocalScale");
 
-            if (EditorPrefs.HasKey("CustomOriginResetPosition"))
-                m_resetPosition = StringToVector3(EditorPrefs.GetString("CustomOriginResetPosition"));
-            if (EditorPrefs.HasKey("CustomOriginResetRotation"))
-                m_resetRotation = StringToVector3(EditorPrefs.GetString("CustomOriginResetRotation"));
-            if (EditorPrefs.HasKey("CustomOriginm_ResetScale"))
-                m_resetScale = StringToVector3(EditorPrefs.GetString("CustomOriginm_ResetScale"));
+            LoadCustomValues();
         }
 
         public override void OnInspectorGUI()
@@ -91,54 +77,7 @@ namespace HotBloodr.Editor
 
             EditorGUILayout.EndHorizontal();
 
-            string originLabel;
-            if (m_resetPosition != Vector3.zero || m_resetRotation != Vector3.zero || m_resetScale != Vector3.one)
-                originLabel = "Set Origin [Custom]";
-            else
-                originLabel = "Set Origin [Default]";
-
-            m_unFold = EditorGUILayout.Foldout(m_unFold, originLabel);
-            if (m_unFold)
-            {
-                EditorGUI.BeginChangeCheck();
-                if (GUILayout.Button("Clear Custom Origin", EditorStyles.miniButton))
-                {
-                    m_resetPosition = Vector3.zero;
-                    m_resetRotation = Vector3.zero;
-                    m_resetScale = Vector3.one;
-                    GUI.FocusControl(null);
-                }
-
-                GUI.backgroundColor = Color.white;
-
-                m_resetPosition = EditorGUILayout.Vector3Field("Position", m_resetPosition);
-                m_resetRotation = EditorGUILayout.Vector3Field("Rotation", m_resetRotation);
-                m_resetScale = EditorGUILayout.Vector3Field("Scale", m_resetScale);
-
-                if (EditorGUI.EndChangeCheck())
-                {
-                    EditorPrefs.SetString("CustomOriginResetPosition", m_resetPosition.ToString());
-                    EditorPrefs.SetString("CustomOriginResetRotation", m_resetRotation.ToString());
-                    EditorPrefs.SetString("CustomOriginResetScale", m_resetScale.ToString());
-                }
-            }
-        }
-
-        Vector3 StringToVector3(string sVector)
-        {
-            if (sVector.StartsWith("(") && sVector.EndsWith(")"))
-            {
-                sVector = sVector.Substring(1, sVector.Length - 2);
-            }
-
-            string[] sArray = sVector.Split(',');
-
-            Vector3 result = new Vector3(
-                float.Parse(sArray[0]),
-                float.Parse(sArray[1]),
-                float.Parse(sArray[2]));
-
-            return result;
+            DrawCustomValues();
         }
     }
 }
