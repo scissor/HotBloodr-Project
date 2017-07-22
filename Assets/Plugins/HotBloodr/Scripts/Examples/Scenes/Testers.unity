@@ -207,7 +207,7 @@ GameObject:
   - component: {fileID: 1901457426}
   - component: {fileID: 1901457425}
   m_Layer: 0
-  m_Name: Script
+  m_Name: AnimatorTester
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -221,10 +221,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1901457424}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e987b78be6a084f51a6a9ece4b19a643, type: 3}
+  m_Script: {fileID: 11500000, guid: 4fd93cacc78404c92a0b3d50861d60fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_circle: {fileID: 1499122496172376, guid: 8bdf64d728bdb44d2af0b7ca6b4c58b4, type: 2}
 --- !u!4 &1901457426
 Transform:
   m_ObjectHideFlags: 0

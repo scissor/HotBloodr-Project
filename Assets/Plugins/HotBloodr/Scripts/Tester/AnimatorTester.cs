@@ -28,14 +28,11 @@ namespace HotBloodr
 {
     public class AnimatorTester : MonoBehaviour
     {
-        [SerializeField]
         private string m_state;
 
-        [SerializeField]
         private List<string> m_states;
 
         private Animator m_animator;
-
 
         void Awake()
         {
@@ -47,14 +44,25 @@ namespace HotBloodr
             Initialize();
         }
 
-        private void Initialize()
+        public string State
         {
-            if (m_animator != null)
+            get
             {
-                return;
+                return m_state;
             }
+        }
 
-            m_animator = GetComponent<Animator>();
+        public List<string> States
+        {
+            get
+            {
+                return m_states;
+            }
+        }
+
+        public void Initialize()
+        {
+            m_animator = GetComponentInChildren<Animator>();
 
             if (m_animator == null)
             {
@@ -64,6 +72,12 @@ namespace HotBloodr
             m_states = new List<string>();
 
             var ac = m_animator.runtimeAnimatorController as UnityEditor.Animations.AnimatorController;
+            if (ac == null)
+            {
+                Debug.Log("RuntimeAnimatorController is null!");
+                return;
+            }
+
             var layers = ac.layers;
 
             foreach (var layer in layers)
@@ -82,6 +96,12 @@ namespace HotBloodr
             m_animator.Play(m_state);
         }
 
+        public void Play(string state)
+        {
+            m_state = state;
+            m_animator.Play(state);
+        }
+
         public void Previous()
         {
             m_state = m_states.CircularNext(m_state);
@@ -95,8 +115,3 @@ namespace HotBloodr
         }
     }
 }
-
-
-#if UNITY_EDITOR
-
-#endif
