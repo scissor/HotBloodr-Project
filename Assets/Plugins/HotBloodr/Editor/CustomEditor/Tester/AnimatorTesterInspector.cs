@@ -1,4 +1,26 @@
-﻿#if UNITY_EDITOR
+﻿//
+// Copyright (C) 2017 Scissor Lee
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+// THE SOFTWARE.
+//
+
+#if UNITY_EDITOR
 
 using UnityEditor;
 using UnityEngine;
@@ -9,6 +31,7 @@ namespace HotBloodr.Editor
     public class AnimatorTesterInspector : UnityEditor.Editor
     {
         private const int BUTTON_WIDTH = 20;
+        private const int STATE_FONT_SIZE = 18;
 
         public override void OnInspectorGUI()
         {
@@ -17,7 +40,10 @@ namespace HotBloodr.Editor
             DrawStates();
 
             var tester = target as AnimatorTester;
+            var labelStyle = new GUIStyle(GUI.skin.label);
+            labelStyle.fontSize = STATE_FONT_SIZE;
 
+            // Next & Previous Button
             GUILayout.BeginHorizontal();
             GUI.backgroundColor = Color.green;
             {
@@ -27,8 +53,6 @@ namespace HotBloodr.Editor
                 }
 
                 GUILayout.FlexibleSpace();
-                var labelStyle = new GUIStyle(GUI.skin.label);
-                labelStyle.fontSize = 18;
                 GUILayout.Label(tester.State, labelStyle);
                 GUILayout.FlexibleSpace();
 
@@ -39,6 +63,14 @@ namespace HotBloodr.Editor
             }
             GUILayout.EndHorizontal();
 
+            // AutoTest Toggle
+            GUI.backgroundColor = Color.white;
+            GUIHelper.HorizontalSplitter(1);
+            GUILayout.Space(5);
+            tester.IsAuto = GUILayout.Toggle(tester.IsAuto, "AutoTest");
+            GUILayout.Space(5);
+
+            // Reset Button
             GUI.backgroundColor = Color.yellow;
             {
                 if (GUILayout.Button("Reset"))

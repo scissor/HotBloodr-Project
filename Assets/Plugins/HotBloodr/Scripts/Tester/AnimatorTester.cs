@@ -20,6 +20,7 @@
 // THE SOFTWARE.
 //
 
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -28,8 +29,9 @@ namespace HotBloodr
 {
     public class AnimatorTester : MonoBehaviour
     {
-        private string m_state;
-
+        [HideInInspector]
+        public string m_state;
+        private bool m_isAuto;
         private List<string> m_states;
 
         private Animator m_animator;
@@ -57,6 +59,23 @@ namespace HotBloodr
             get
             {
                 return m_states;
+            }
+        }
+
+        public bool IsAuto
+        {
+            get
+            {
+                return m_isAuto;
+            }
+            set
+            {
+                if (!m_isAuto && value)
+                {
+                    StartCoroutine(AutoTest());
+                }
+
+                m_isAuto = value;
             }
         }
 
@@ -112,6 +131,19 @@ namespace HotBloodr
         {
             m_state = m_states.CircularNext(m_state);
             Play();
+        }
+
+        private IEnumerator AutoTest()
+        {
+            Next();
+
+            yield return new WaitForSeconds(m_animator.GetCurrentAnimatorStateInfo(0).length);
+            yield return new WaitForSeconds(1);
+
+            if (m_isAuto)
+            {
+                StartCoroutine(AutoTest());
+            }
         }
     }
 }
