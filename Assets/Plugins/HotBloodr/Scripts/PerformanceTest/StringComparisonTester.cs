@@ -1,20 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace HotBloodr
 {
-    public class StringComparisonTest : MonoBehaviour
+    public class StringComparisonTester : PerformanceTester
     {
-        [SerializeField]
-        private int m_compareTimes = 10000;
-
         private string m_lString = "lString";
         private string m_rString = "rString";
 
-        private Dictionary<Action, string> m_testFunctions = new Dictionary<Action, string>();
-
-        void Awake()
+        protected override void InitializeTestFunctions()
         {
             m_testFunctions.Add(EqualityOperator, "EqualityOperator");
             m_testFunctions.Add(StringEquals, "StringEquals");
@@ -22,34 +16,17 @@ namespace HotBloodr
             m_testFunctions.Add(AnimatorHash, "AnimatorHash");
         }
 
-        void OnGUI()
+        public override string Title
         {
-            GUILayout.Label("=== String Comparison Test ===");
-
-            GUI.color = Color.green;
+            get
             {
-                if (GUILayout.Button("Test All"))
-                {
-                    foreach (var pair in m_testFunctions)
-                    {
-                        TestHelper.MeasureByStopwatch(pair.Key, pair.Value);
-                    }
-                }
-            }
-            GUI.color = Color.white;
-
-            foreach (var pair in m_testFunctions)
-            {
-                if (GUILayout.Button(pair.Value))
-                {
-                    TestHelper.MeasureByStopwatch(pair.Key, pair.Value);
-                }
+                return "String Comparison Test";
             }
         }
 
         private void EqualityOperator()
         {
-            for (int i = 0; i < m_compareTimes; i++)
+            for (int i = 0; i < m_testTimes; i++)
             {
                 if (m_lString == m_rString)
                 {
@@ -59,7 +36,7 @@ namespace HotBloodr
 
         private void StringEquals()
         {
-            for (int i = 0; i < m_compareTimes; i++)
+            for (int i = 0; i < m_testTimes; i++)
             {
                 if (string.Equals(m_lString, m_rString))
                 {
@@ -69,7 +46,7 @@ namespace HotBloodr
 
         private void StringEqualsByIgnoreCase()
         {
-            for (int i = 0; i < m_compareTimes; i++)
+            for (int i = 0; i < m_testTimes; i++)
             {
                 if (string.Equals(m_lString, m_rString, StringComparison.CurrentCultureIgnoreCase))
                 {
@@ -79,7 +56,7 @@ namespace HotBloodr
 
         private void AnimatorHash()
         {
-            for (int i = 0; i < m_compareTimes; i++)
+            for (int i = 0; i < m_testTimes; i++)
             {
                 var lHash = Animator.StringToHash(m_lString);
                 var rHash = Animator.StringToHash(m_rString);
