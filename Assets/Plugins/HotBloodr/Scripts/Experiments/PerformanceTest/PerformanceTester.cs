@@ -20,51 +20,54 @@
 // THE SOFTWARE.
 //
 
+using System;
 using System.Collections.Generic;
-using System.Linq;
+using UnityEngine;
 
-namespace HotBloodr
+namespace HotBloodr.Experiments
 {
-    public class CsvParser
+    public abstract class PerformanceTester : MonoBehaviour
     {
-        public static List<string> Split(string s)
-        {
-            var strings = s.Split(',');
-            var newStrings = new List<string>();
-            var newString = string.Empty;
-            var isDoubleQuote = false;
-            for (int i = 0; i < strings.Length; i++)
-            {
-                var str = strings[i];
+        [SerializeField]
+        protected int m_testTimes = 1000000;
 
-                if (str.Contains('"'))
+        protected Dictionary<Action, string> m_testFunctions = new Dictionary<Action, string>();
+
+        void Awake()
+        {
+            InitializeTestFunctions();
+        }
+
+        public void DrawGUI()
+        {
+            GUILayout.Label("=== " + Title + " ===");
+            GUILayout.Label("TestTimes: " + m_testTimes);
+
+            GUI.color = Color.green;
+            {
+                if (GUILayout.Button("Test All"))
                 {
-                    if (isDoubleQuote)
+                    foreach (var pair in m_testFunctions)
                     {
-                        newString += "," + str.Replace('"', new char());
-                        newStrings.Add(newString);
-                        isDoubleQuote = false;
-                    }
-                    else
-                    {
-                        newString = str.Replace('"', new char());
-                        isDoubleQuote = true;
-                    }
-                }
-                else
-                {
-                    if (!isDoubleQuote)
-                    {
-                        newStrings.Add(str);
-                    }
-                    else
-                    {
-                        newString += str;
+                        TestHelper.MeasureByStopwatch(pair.Key, pair.Value);
                     }
                 }
             }
+            GUI.color = Color.white;
 
-            return newStrings;
+            foreach (var pair in m_testFunctions)
+            {
+                if (GUILayout.Button(pair.Value))
+                {
+                    TestHelper.MeasureByStopwatch(pair.Key, pair.Value);
+                }
+            }
+        }
+
+        protected abstract void InitializeTestFunctions();
+        public abstract string Title
+        {
+            get;
         }
     }
 }

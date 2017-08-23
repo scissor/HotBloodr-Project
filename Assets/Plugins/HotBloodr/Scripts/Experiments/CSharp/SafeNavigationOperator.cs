@@ -20,42 +20,27 @@
 // THE SOFTWARE.
 //
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace HotBloodr
+namespace HotBloodr.Experiments
 {
-    public class PerformanceTest : MonoBehaviour
+    public class SafeNavigationOperator : MonoBehaviour
     {
-        private List<PerformanceTester> m_testers;
-        private PerformanceTester m_tester;
+        public event Action<int> ActionEvent;
 
-        void Awake()
+        public List<GameObject> m_objects;
+
+        void Start()
         {
-            m_testers = GetComponentsInChildren<PerformanceTester>().ToList();
-            m_tester = m_testers.First();
+            ActionEvent?.Invoke(99);
         }
 
-        void OnGUI()
+        void Update()
         {
-            GUI.backgroundColor = Color.red;
-            GUILayout.BeginHorizontal();
-            {
-                if (GUILayout.Button("Next"))
-                {
-                    m_tester = m_testers.CircularNext(m_tester);
-                }
 
-                if (GUILayout.Button("Previous"))
-                {
-                    m_tester = m_testers.CircularPrev(m_tester);
-                }
-            }
-            GUILayout.EndHorizontal();
-            GUI.backgroundColor = Color.white;
-
-            m_tester.DrawGUI();
         }
     }
 }

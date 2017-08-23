@@ -20,71 +20,53 @@
 // THE SOFTWARE.
 //
 
-using System;
 using UnityEngine;
 
-namespace HotBloodr
+namespace HotBloodr.Experiments
 {
-    public class StringComparisonTester : PerformanceTester
+    public class LoopTester : PerformanceTester
     {
-        private string m_lString = "lString";
-        private string m_rString = "rString";
+        private class Player
+        {
+            public int Hp;
+            public string Name;
+        }
+
+        private Player[] m_playerArray;
 
         protected override void InitializeTestFunctions()
         {
-            m_testFunctions.Add(EqualityOperator, "EqualityOperator");
-            m_testFunctions.Add(StringEquals, "StringEquals");
-            m_testFunctions.Add(StringEqualsByIgnoreCase, "StringEqualsByIgnoreCase");
-            m_testFunctions.Add(AnimatorHash, "AnimatorHash");
+            m_testFunctions.Add(ForLoop, "ForLoop");
+            m_testFunctions.Add(ForEach, "ForEach");
+
+            m_playerArray = new Player[m_testTimes];
+            for (int i = 0; i < m_testTimes; i++)
+            {
+                m_playerArray[i] = new Player();
+            }
         }
 
         public override string Title
         {
             get
             {
-                return "String Comparison Test";
+                return "Loop Test";
             }
         }
 
-        private void EqualityOperator()
+        private void ForLoop()
         {
             for (int i = 0; i < m_testTimes; i++)
             {
-                if (m_lString == m_rString)
-                {
-                }
+                m_playerArray[i].Hp = 0;
             }
         }
 
-        private void StringEquals()
+        private void ForEach()
         {
-            for (int i = 0; i < m_testTimes; i++)
+            foreach (var player in m_playerArray)
             {
-                if (string.Equals(m_lString, m_rString))
-                {
-                }
-            }
-        }
-
-        private void StringEqualsByIgnoreCase()
-        {
-            for (int i = 0; i < m_testTimes; i++)
-            {
-                if (string.Equals(m_lString, m_rString, StringComparison.CurrentCultureIgnoreCase))
-                {
-                }
-            }
-        }
-
-        private void AnimatorHash()
-        {
-            for (int i = 0; i < m_testTimes; i++)
-            {
-                var lHash = Animator.StringToHash(m_lString);
-                var rHash = Animator.StringToHash(m_rString);
-                if (lHash == rHash)
-                {
-                }
+                player.Hp = 0;
             }
         }
     }

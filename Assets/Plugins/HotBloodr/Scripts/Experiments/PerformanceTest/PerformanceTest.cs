@@ -20,54 +20,42 @@
 // THE SOFTWARE.
 //
 
-using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
-namespace HotBloodr
+namespace HotBloodr.Experiments
 {
-    public abstract class PerformanceTester : MonoBehaviour
+    public class PerformanceTest : MonoBehaviour
     {
-        [SerializeField]
-        protected int m_testTimes = 1000000;
-
-        protected Dictionary<Action, string> m_testFunctions = new Dictionary<Action, string>();
+        private List<PerformanceTester> m_testers;
+        private PerformanceTester m_tester;
 
         void Awake()
         {
-            InitializeTestFunctions();
+            m_testers = GetComponentsInChildren<PerformanceTester>().ToList();
+            m_tester = m_testers.First();
         }
 
-        public void DrawGUI()
+        void OnGUI()
         {
-            GUILayout.Label("=== " + Title + " ===");
-            GUILayout.Label("TestTimes: " + m_testTimes);
-
-            GUI.color = Color.green;
+            GUI.backgroundColor = Color.red;
+            GUILayout.BeginHorizontal();
             {
-                if (GUILayout.Button("Test All"))
+                if (GUILayout.Button("Next"))
                 {
-                    foreach (var pair in m_testFunctions)
-                    {
-                        TestHelper.MeasureByStopwatch(pair.Key, pair.Value);
-                    }
+                    m_tester = m_testers.CircularNext(m_tester);
+                }
+
+                if (GUILayout.Button("Previous"))
+                {
+                    m_tester = m_testers.CircularPrev(m_tester);
                 }
             }
-            GUI.color = Color.white;
+            GUILayout.EndHorizontal();
+            GUI.backgroundColor = Color.white;
 
-            foreach (var pair in m_testFunctions)
-            {
-                if (GUILayout.Button(pair.Value))
-                {
-                    TestHelper.MeasureByStopwatch(pair.Key, pair.Value);
-                }
-            }
-        }
-
-        protected abstract void InitializeTestFunctions();
-        public abstract string Title
-        {
-            get;
+            m_tester.DrawGUI();
         }
     }
 }
