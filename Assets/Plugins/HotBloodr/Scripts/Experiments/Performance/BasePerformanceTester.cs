@@ -26,7 +26,7 @@ using UnityEngine;
 
 namespace HotBloodr.Experiments
 {
-    public class PerformanceTest : MonoBehaviour
+    public class BasePerformanceTester : MonoBehaviour
     {
         private List<PerformanceTester> m_testers;
         private PerformanceTester m_tester;

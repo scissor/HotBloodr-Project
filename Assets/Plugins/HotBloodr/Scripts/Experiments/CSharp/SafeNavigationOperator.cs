@@ -22,7 +22,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 namespace HotBloodr.Experiments
@@ -36,11 +35,6 @@ namespace HotBloodr.Experiments
         void Start()
         {
             ActionEvent?.Invoke(99);
-        }
-
-        void Update()
-        {
-
         }
     }
 }
