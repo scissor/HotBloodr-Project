@@ -34,7 +34,11 @@ namespace HotBloodr.Experiments
 
         void Start()
         {
+#if NET_4_6
+
             ActionEvent?.Invoke(99);
+
+#endif
         }
     }
 }
