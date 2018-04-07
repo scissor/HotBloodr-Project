@@ -28,7 +28,7 @@ using UnityEngine;
 namespace HotBloodr.Editor
 {
     [CustomEditor(typeof(AnimatorTester)), CanEditMultipleObjects]
-    public class AnimatorTesterInspector : UnityEditor.Editor
+    public class AnimatorTesterEditor : UnityEditor.Editor
     {
         private const int BUTTON_WIDTH = 20;
         private const int STATE_FONT_SIZE = 18;
