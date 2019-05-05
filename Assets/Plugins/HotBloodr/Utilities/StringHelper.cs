@@ -20,11 +20,9 @@
 // THE SOFTWARE.
 //
 
-using UnityEngine;
-
 namespace HotBloodr
 {
-    public class StringHelper
+    public static class StringHelper
     {
         public static string GetMinuteSecondTime(float time)
         {

@@ -24,7 +24,7 @@ using System;
 
 namespace HotBloodr
 {
-    public class ReflectionHelper
+    public static class ReflectionHelper
     {
         public static Type GetType(string name)
         {

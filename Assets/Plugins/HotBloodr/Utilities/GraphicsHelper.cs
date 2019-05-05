@@ -24,7 +24,7 @@ using UnityEngine;
 
 namespace HotBloodr
 {
-    public class GraphicsHelper
+    public static class GraphicsHelper
     {
         public static Texture2D Sprite2Texture(Sprite sprite)
         {

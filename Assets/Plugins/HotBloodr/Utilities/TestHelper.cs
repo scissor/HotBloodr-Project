@@ -26,7 +26,7 @@ using UnityEngine;
 
 namespace HotBloodr
 {
-    public class TestHelper
+    public static class TestHelper
     {
         public static Stopwatch m_stopwatch = new Stopwatch();
 

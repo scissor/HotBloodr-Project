@@ -26,7 +26,7 @@ using System.Linq;
 
 namespace HotBloodr
 {
-    public class EnumHelper
+    public static class EnumHelper
     {
         public static IEnumerable<T> GetValues<T>()
         {
