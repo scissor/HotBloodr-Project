@@ -1,21 +1,19 @@
-#if UNITY_EDITOR
-
-using UnityEngine;
-using UnityEditor;
 using System;
-using UnityEditorInternal;
 using System.Reflection;
+using UnityEditor;
+using UnityEditorInternal;
+using UnityEngine;
 
-namespace Akatsuki.Editor
+namespace HotBloodr.Editor
 {
-    public class EditorHelper
+    public static class EditorHelper
     {
         public static string FolderField(string title, string text, GUIStyle style)
         {
             GUILayout.Label(title, style);
             if (GUILayout.Button("Load..."))
             {
-                text = EditorUtility.OpenFolderPanel("Load...", "", "");
+                text = EditorUtility.OpenFolderPanel("Load...", string.Empty, string.Empty);
             }
             text = GUILayout.TextField(text);
             GUILayout.Space(10);
@@ -27,7 +25,7 @@ namespace Akatsuki.Editor
             GUILayout.Label(title, style);
             if (GUILayout.Button("Load..."))
             {
-                text = EditorUtility.OpenFilePanel("Load...", "", ".cs");
+                text = EditorUtility.OpenFilePanel("Load...", string.Empty, ".cs");
             }
             text = GUILayout.TextField(text);
             GUILayout.Space(10);
@@ -54,4 +52,3 @@ namespace Akatsuki.Editor
         }
     }
 }
-#endif
