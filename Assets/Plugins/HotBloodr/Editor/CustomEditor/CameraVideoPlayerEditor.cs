@@ -20,8 +20,6 @@
 // THE SOFTWARE.
 //
 
-#if UNITY_EDITOR
-
 using HotBloodr.Video;
 using UnityEditor;
 using UnityEngine;
@@ -102,5 +100,3 @@ namespace HotBloodr.Editor
         }
     }
 }
-
-#endif

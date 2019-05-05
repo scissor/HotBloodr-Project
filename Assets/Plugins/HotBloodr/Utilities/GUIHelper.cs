@@ -1,5 +1,5 @@
 //
-// Copyright (C) 2017 Scissor Lee
+// Copyright (C) 2019 Scissor Lee
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -21,11 +21,12 @@
 //
 
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace HotBloodr
 {
-    public class GUIHelper
+    public static class GUIHelper
     {
         public static void FixedLabel(string text)
         {
@@ -68,6 +69,24 @@ namespace HotBloodr
             return GUILayout.Button(title, GUILayout.MaxWidth(width), GUILayout.MaxHeight(height));
         }
 
+        public static bool ColorButton(string title, Color color)
+        {
+            GUI.backgroundColor = color;
+            var isClicked = GUILayout.Button(title);
+            GUI.backgroundColor = Color.white;
+
+            return isClicked;
+        }
+
+        public static bool ColorButton(string title, Color color, float width, float height)
+        {
+            GUI.backgroundColor = color;
+            var isClicked = GUILayout.Button(title, GUILayout.MaxWidth(width), GUILayout.MaxHeight(height));
+            GUI.backgroundColor = Color.white;
+
+            return isClicked;
+        }
+
         public static bool SpriteButton(Sprite sprite, float width, float height)
         {
             return GUILayout.Button(GraphicsHelper.Sprite2Texture(sprite), GUILayout.MaxWidth(width), GUILayout.MaxHeight(height));
@@ -76,6 +95,12 @@ namespace HotBloodr
         public static void HorizontalSplitter(int height)
         {
             GUILayout.Box(string.Empty, GUILayout.ExpandWidth(true), GUILayout.Height(height));
+        }
+        public static void HorizontalSplitter(int height, int space)
+        {
+            GUILayout.Space(space);
+            GUILayout.Box(string.Empty, GUILayout.ExpandWidth(true), GUILayout.Height(height));
+            GUILayout.Space(space);
         }
         public static void HorizontalSplitter(string title, int height)
         {
@@ -88,10 +113,17 @@ namespace HotBloodr
             GUI.backgroundColor = color;
             if (GUILayout.Button("+", GUILayout.Width(width)))
             {
-                list.Insert(index + 1, item);
+                if (!list.Any())
+                {
+                    list.Add(item);
+                }
+                else
+                {
+                    list.Insert(index + 1, item);
+                }
                 return true;
             }
-            if (GUILayout.Button("-", GUILayout.Width(width)))
+            if (list.Any() && GUILayout.Button("-", GUILayout.Width(width)))
             {
                 list.Remove(list[index]);
                 return true;
@@ -99,6 +131,39 @@ namespace HotBloodr
             GUI.backgroundColor = Color.white;
 
             return false;
+        }
+
+        public static bool DrawAddButton<T>(List<T> list, T item, int index, Color color, int width = 20)
+        {
+            GUI.backgroundColor = color;
+            if (GUILayout.Button("+", GUILayout.Width(width)))
+            {
+                if (!list.Any())
+                {
+                    list.Add(item);
+                }
+                else
+                {
+                    list.Insert(index + 1, item);
+                }
+                return true;
+            }
+            GUI.backgroundColor = Color.white;
+
+            return false;
+        }
+
+        public static void DrawSpriteWithTexCoords(Rect position, Sprite sprite)
+        {
+            var fullSize = new Vector2(sprite.texture.width, sprite.texture.height);
+
+            var coords = sprite.textureRect;
+            coords.x /= fullSize.x;
+            coords.width /= fullSize.x;
+            coords.y /= fullSize.y;
+            coords.height /= fullSize.y;
+
+            GUI.DrawTextureWithTexCoords(position, sprite.texture, coords);
         }
     }
 }

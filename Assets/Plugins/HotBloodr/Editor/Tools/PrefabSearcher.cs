@@ -20,8 +20,6 @@
 // THE SOFTWARE.
 //
 
-#if UNITY_EDITOR
-
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -30,7 +28,7 @@ using UnityEngine;
 
 namespace HotBloodr.Editor
 {
-    public class PrefabSearcher : EditorWindow
+    public class PrefabSearcher : HotBloodrWindow
     {
         private const string PREFAB_EXT_NAME = "prefab";
 
@@ -38,16 +36,12 @@ namespace HotBloodr.Editor
         private string m_searchText;
         private Dictionary<string, string> m_searchedFiles = new Dictionary<string, string>();
 
-        [MenuItem("HotBloodr/Utilities/PrefabSearcher")]
-        public static void ShowWindow()
-        {
-            var window = EditorWindow.GetWindow(typeof(PrefabSearcher));
-            window.titleContent = new GUIContent("PrefabSearcher");
-        }
+        #region HotBloodrWindow
 
-        public void OnGUI()
-        {
+        protected override string Title => "Prefab Searcher";
 
+        protected override void OnWindowGUI()
+        {
             m_searchType = EditorGUILayout.TextField(m_searchType, GUILayout.Height(30));
             m_searchText = EditorGUILayout.TextField(m_searchText, GUILayout.Height(30));
             GUI.backgroundColor = Color.red;
@@ -88,6 +82,8 @@ namespace HotBloodr.Editor
                 GUILayout.EndHorizontal();
             }
         }
+
+        #endregion
 
         private void SearchByComponent(string extName)
         {
@@ -143,5 +139,3 @@ namespace HotBloodr.Editor
         }
     }
 }
-
-#endif

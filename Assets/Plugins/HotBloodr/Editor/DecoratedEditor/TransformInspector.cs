@@ -20,8 +20,6 @@
 // THE SOFTWARE.
 //
 
-#if UNITY_EDITOR
-
 using UnityEngine;
 using UnityEditor;
 
@@ -81,5 +79,3 @@ namespace HotBloodr.Editor
         }
     }
 }
-
-#endif

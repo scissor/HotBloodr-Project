@@ -20,8 +20,6 @@
 // THE SOFTWARE.
 //
 
-#if UNITY_EDITOR
-
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -31,12 +29,12 @@ using UnityEngine;
 
 namespace HotBloodr.Editor
 {
-    public class FileEnumCreator
+    public static class FileEnumCreator
     {
         private const string m_templateName = "FileEnum.txt";
         private static readonly string m_root = Application.dataPath + "/Scripts/Enum/";
 
-        public static void OnClick()
+        public static void OpenWindow()
         {
             string path = EditorUtility.OpenFolderPanel("Load...", "", "");
             if (path.Length != 0)
@@ -80,5 +78,3 @@ namespace HotBloodr.Editor
         }
     }
 }
-
-#endif

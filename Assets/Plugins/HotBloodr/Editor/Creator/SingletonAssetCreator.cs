@@ -20,8 +20,6 @@
 // THE SOFTWARE.
 //
 
-#if UNITY_EDITOR
-
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -41,9 +39,9 @@ namespace HotBloodr.Editor
         private bool m_isNeedCreate = false;
         private bool m_isNeedFocus = false;
 
-        public static void OnClick()
+        public static void OpenWindow()
         {
-            var window = EditorWindow.GetWindow(typeof(SingletonAssetCreator));
+            var window = GetWindow(typeof(SingletonAssetCreator));
             window.titleContent = new GUIContent("AssetCreator");
             window.Show();
         }
@@ -161,5 +159,3 @@ namespace HotBloodr.Editor
         }
     }
 }
-
-#endif
