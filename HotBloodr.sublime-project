@@ -7,17 +7,8 @@
 				"*.dll",
 				"*.meta"
 			],
-			"name": "Scripts",
-			"path": "Assets/Plugins/HotBloodr/Scripts"
-		},
-		{
-			"file_exclude_patterns":
-			[
-				"*.dll",
-				"*.meta"
-			],
-			"name": "Editor",
-			"path": "Assets/Plugins/HotBloodr/Editor"
+			"name": "HotBloodr",
+			"path": "Assets/Plugins/HotBloodr"
 		}
 	]
 }
