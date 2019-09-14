@@ -24,7 +24,7 @@ using System;
 using UnityEngine;
 using UnityEngine.Video;
 
-namespace HotBloodr.Video
+namespace HotBloodr
 {
     public class CameraVideoPlayer : MonoBehaviour, IVideoController
     {

@@ -20,7 +20,7 @@
 // THE SOFTWARE.
 //
 
-namespace HotBloodr.Video
+namespace HotBloodr
 {
     public interface IVideoController
     {
