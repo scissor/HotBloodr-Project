@@ -1,0 +1,3 @@
+[submodule "Assets/Plugins/HotBloodr"]
+	path = Assets/Plugins/HotBloodr
+	url = git@github.com:scissor/HotBloodr.git
