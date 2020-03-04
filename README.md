@@ -1,6 +1,9 @@
 # HotBloodr-Project
 A Unity Project contains examples & experiments for HotBloodr.
 
+### [HotBloodr](https://github.com/scissor/HotBloodr): Work as submodule.
+GameFramework & Utilities for creative coding with Unity.
+
 # License
 Copyright (C) 2020 Scissor Lee
 
